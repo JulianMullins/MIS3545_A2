@@ -40,7 +40,7 @@ A.Stand_ID=B.Stand_ID;
 /*Stands with no sales will not be joined. Those stands have not begun selling, so it is not necessary to look at them. For reference, stands 4, 6, 9, and 10 have no sales.*/
 
 /*Subquery*/
-SELECT A.Stand_ID, A.Location, SUM(B.Quantity*C.Price)-(SELECT AVG(B.Quantity*C.Price) FROM Sale as B JOIN Product AS C ON B.Product_ID=C.Product_ID GROUP BY A.Stand_ID)
+SELECT A.Stand_ID, A.Location, SUM(B.Quantity*C.Price)-(SELECT AVG(B.Quantity*C.Price) FROM Sale as B JOIN Product AS C ON B.Product_ID=C.Product_ID) AS Difference_from_Mean
 FROM Stand AS A
 JOIN Sale AS B ON
 A.Stand_ID=B.Stand_ID

@@ -1,24 +1,26 @@
 ﻿CREATE DATABASE LemonadeStand;
+GO
 
 USE LemonadeStand;
+GO
 
 /*generate tables*/
 CREATE TABLE Supplier(
 Supplier_ID BIGINT NOT NULL PRIMARY KEY,
-Company_Name TEXT NOT NULL,
-Contact_Name TEXT NOT NULL,
+Company_Name varchar(25) NOT NULL,
+Contact_Name varchar(25) NOT NULL,
 Phone_Number BIGINT NOT NULL);
 
 CREATE TABLE Ingredient(
 Ingredient_ID BIGINT NOT NULL PRIMARY KEY,
 Supplier_ID BIGINT NOT NULL,
-Ingredient_Name TEXT NOT NULL,
-Measurement_Type TEXT NOT NULL,
+Ingredient_Name varchar(25) NOT NULL,
+Measurement_Type varchar(25) NOT NULL,
 Quantity_Puchased BIGINT NOT NULL);
 
 CREATE TABLE Product(
 Product_ID BIGINT NOT NULL PRIMARY KEY,
-Product_Name TEXT NOT NULL,
+Product_Name varchar(25) NOT NULL,
 Price DECIMAL NOT NULL);
 
 CREATE TABLE Ingredient_Product(
@@ -34,16 +36,16 @@ Quantity BIGINT NOT NULL);
 
 CREATE TABLE Customer(
 Customer_ID BIGINT NOT NULL PRIMARY KEY,
-Customer_Name TEXT NOT NULL,
+Customer_Name varchar(25) NOT NULL,
 Phone_Number BIGINT NOT NULL);
 
 CREATE TABLE Stand(
 Stand_ID BIGINT NOT NULL PRIMARY KEY,
-Salesperson_Name TEXT NOT NULL,
+Salesperson_Name varchar(25) NOT NULL,
 Annual_Salary DECIMAL NOT NULL,
 Start_Date DATE NOT NULL,
 End_Date DATE,
-Location TEXT NOT NULL);
+Location varchar(25) NOT NULL);
 
 /*Create table relationships*/
 ALTER TABLE Ingredient ADD CONSTRAINT FK_Ingredients_Supplier
@@ -60,6 +62,7 @@ ALTER TABLE Sale ADD CONSTRAINT FK_Sales_Stand
 FOREIGN KEY (Stand_ID) REFERENCES Stand(Stand_ID);
 ALTER TABLE Sale ADD CONSTRAINT FK_Sales_Product
 FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID);
+GO
 
 /*Insert Data*/
 INSERT INTO Supplier(Supplier_ID, Company_Name, Contact_Name, Phone_Number) VALUES
@@ -88,6 +91,43 @@ INSERT INTO Ingredient(Ingredient_ID, Supplier_ID, Ingredient_Name, Measurement_
 (10, 10, 'Salt', '1 teaspoon', 10000),
 (11, 11, 'Water', '1 cup', 10000),
 (12, 11, 'Sparkling Water', '1 cup', 500);
+
+INSERT INTO Product(Product_ID, Product_Name, Price)
+VALUES
+(1, 'Margarita', 8),
+(2, 'Original Lemonade', 2.5),
+(3, 'Unsweetened Lemonade', 2),
+(4, 'Half Lemonade Half Tea', 3.5),
+(5, 'Raspberry Lemonade', 3.5),
+(6, 'Ginger Lemonade', 4),
+(7, 'Lemonade Beer', 6.5),
+(8, 'Lemon on the Beach', 8),
+(9, 'Lemon Tequila Shot', 3),
+(10, 'Sparkling Lemonade', 4);
+
+INSERT INTO Customer(Customer_ID, Customer_Name, Phone_Number) VALUES
+(1, 'Paul', 6172239384),
+(2, 'Brandon', 3748482764),
+(3, 'Julian', 9489284612),
+(4, 'Peter', 2341118754),
+(5, 'Louis', 9841238974),
+(6, 'Lisa', 9041238888),
+(7, 'Lauren', 3427775811),
+(8, 'Jack', 9090903333),
+(9, 'Jae', 2123435758),
+(10, 'Clark', 1232312254);
+
+INSERT INTO Stand(Stand_ID, Salesperson_Name, Annual_Salary, Start_Date, End_Date, Location) VALUES
+(1, 'Tom', 40000, '2017-05-01', Null, 'Boston'),
+(2, 'Mac', 38000, '2017-03-04', Null, 'Boston'),
+(3, 'Sara', 42000, '2017-04-01', Null, 'New York'),
+(4, 'Mike', 45000, '2017-06-12', '2018-02-14', 'New York'),
+(5, 'Mary', 45000, '2018-02-14', Null, 'New York'),
+(6, 'Madrid', 28000, '2017-02-01', Null, 'Chicago'),
+(7, 'Waydi', 35000, '2018-01-01', Null, 'Chicago'),
+(8, 'Bam', 34500, '2018-01-01', Null, 'Chicago'),
+(9, 'John', 20000, '2017-01-01', Null, 'New York'),
+(10, 'Paulina', 60000, '2018-01-11', Null, 'Los Angeles');
 
 INSERT INTO Ingredient_Product(Ingredient_ID, Product_ID) VALUES
 (1, 1),
@@ -125,21 +165,7 @@ INSERT INTO Ingredient_Product(Ingredient_ID, Product_ID) VALUES
 (2, 10),
 (5, 10);
 
-INSERT INTO Product(Product_ID, Product_Name, Price)
-VALUES
-(1, 'Margarita', 8),
-(2, 'Original Lemonade', 2.5),
-(3, 'Unsweetened Lemonade', 2),
-(4, 'Half Lemonade Half Tea', 3.5),
-(5, 'Raspberry Lemonade', 3.5),
-(6, 'Ginger Lemonade', 4),
-(7, 'Lemonade Beer', 6.5),
-(8, 'Lemon on the Beach', 8),
-(9, 'Lemon Tequila Shot', 3),
-(10, 'Sparkling Lemonade', 4);
-
-INSERT INTO Sale(Sales_ID, Customer_ID, Stand_ID, Product_ID, Quantity)
-VALUES
+INSERT INTO Sale(Sales_ID, Customer_ID, Stand_ID, Product_ID, Quantity) VALUES
 (1, 1, 1, 1, 5),
 (2, 1, 1, 9, 3),
 (3, 2, 3, 3, 2),
@@ -150,28 +176,3 @@ VALUES
 (8, 3, 5, 8, 4),
 (9, 8, 2, 6, 3),
 (10, 8, 2, 7, 10);
-
-INSERT INTO Customer(Customer_ID, Customer_Name, Phone_Number) VALUES
-(1, 'Paul', 6172239384),
-(2, 'Brandon', 3748482764),
-(3, 'Julian', 9489284612),
-(4, 'Peter', 2341118754),
-(5, 'Louis', 9841238974),
-(6, 'Lisa', 9041238888),
-(7, 'Lauren', 3427775811),
-(8, 'Jack', 9090903333),
-(9, 'Jae', 2123435758),
-(10, 'Clark', 1232312254);
-
-INSERT INTO Stand(Stand_ID, Salesperson_Name, Annual_Salary, Start_Date, End_Date, Location)
-VALUES
-(1, 'Tom', 40000, '2017-05-01', Null, 'Boston'),
-(2, 'Mac', 38000, '2017-03-04', Null, 'Boston'),
-(3, 'Sara', 42000, '2017-04-01', Null, 'New York'),
-(4, 'Mike', 45000, '2017-06-12', '2018-02-14', 'New York'),
-(5, 'Mary', 45000, '2018-02-14', Null, 'New York'),
-(6, 'Madrid', 28000, '2017-02-01', Null, 'Chicago'),
-(7, 'Waydi', 35000, '2018-01-01', Null, 'Chicago'),
-(8, 'Bam', 34500, '2018-01-01', Null, 'Chicago'),
-(9, 'John', 20000, '2017-01-01', Null, 'New York'),
-(10, 'Paulina', 60000, '2018-01-11', Null, 'Los Angeles');
